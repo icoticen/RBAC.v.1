@@ -1,0 +1,456 @@
+﻿@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+    String TableName = (String)ViewBag.TableName ?? ViewContext.RouteData.Values["action"].ToString().ToLower().Replace("_list", "");
+
+}
+@*@model II_Group*@
+@model LayUI.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <link href="~/Content/FontAwesome/v4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script src="~/Content/My97DatePicker/v4.8/WdatePicker.js"></script>
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.3.1/echarts.min.js"></script>*@
+    <title>@ViewBag.Title</title>
+    <script id="Tmpl_Table" type="text/html">
+        <table class="layui-table" style="text-align:center" lay-size="sm">
+            <thead>
+                <tr>
+                    {{#  layui.each(d.Properties, function(index, prop){ }}
+                    <td>
+                        {{# layui.each(d.Sorts, function(index, sort){ }}
+                        {{# if(prop.Code===sort.Code){}}
+                        {{# if(sort.IsAsc){}}
+                        <a data-code="{{=prop.Code}}" href="#" style="display:block">
+                            {{=prop.Name}}
+                            <span class="fa fa-sort fa-sort-asc" style="margin-left:10px"></span>
+                        </a>
+                        {{# }else{ }}
+                        <a data-code="{{=prop.Code}}" href="#" style="display:block">
+                            {{=prop.Name}}
+                            <span class="fa fa-sort fa-sort-desc" style="margin-left:10px"></span>
+                        </a>
+                        {{# } }}
+                        {{# }else{ }}
+                        <a data-code="{{=prop.Code}}" href="#" style="display:block">
+                            {{=prop.Name}}
+                            <span class="fa fa-sort" style="margin-left:10px"></span>
+                        </a>
+                        {{#  } }}
+                        {{#  }); }}
+                    </td>
+                    {{#  }); }}
+                    <td>
+                        <a style="display:block">
+                            操作
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#  layui.each(d.TableData, function(index, row){ }}
+                <tr>
+                    {{# layui.each(d.Properties, function(index, prop){ }}
+                    {{# if(prop.Type==="image"){}}
+                    <td><img src="{{=row.Cells[prop.Code]}}" height="32" width="32" /></td>
+                    {{# }else if(prop.Type==="imagelist"){ }}
+                    <td>
+                        {{# if(row.Cells[prop.Code]){ }}
+                            {{# layui.each(row.Cells[prop.Code].split(','), function(index, img){ }}
+                                {{# if(img && img.length>4){ }}
+                                <img src="{{=img}}" height="32" width="32" />
+                                {{# } }}
+                            {{# }); }}
+                        {{# }  }}
+                    </td>
+                    {{# }else if(prop.Type==="text"){ }}
+                    <td>{{=row.Cells[prop.Code]}}</td>
+                    {{# }else if(prop.Type==="bool"){ }}
+                    {{# if(row.Cells[prop.Code]){ }}
+                    <td><i class="layui-icon" style="color: green;">&#xe605;</i></td>
+                    {{# }else { }}
+                    <td><i class="layui-icon" style="color: red;">&#x1006;</i></td>
+                    {{# } }}
+                    {{# }else { }}
+                    <td>{{=row.Cells[prop.Code]}}</td>
+                    {{# } }}
+                    {{#  }); }}
+                    <td>
+                        <div class="layui-btn-group">
+                            @{
+                                var lbtn_item = Model.Buttons.Where(p => p.Site == "item");
+                                foreach (var item in lbtn_item)
+                                {
+                                    <button class="layui-btn layui-btn-small" onclick="@item.ClickScript">
+                                        @item.Name
+                                    </button>
+                                }
+                            }
+                            {{# layui.each(row.Buttons, function(index, btn){ }}
+                            {{# if(btn){ }}
+                            <button class="layui-btn layui-btn-small" onclick="{{=btn.ClickScript}}">
+                                {{=btn.Name}}
+                            </button>
+                            {{# } }}
+                            {{#  }); }}
+                        </div>
+                    </td>
+                </tr>
+                {{#  }); }}
+            </tbody>
+        </table>
+    </script>
+
+    <style type="text/css">
+        /*表头设置加粗*/
+        #Table table thead a {
+            font-weight: bolder;
+            font-size: 1.2em;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var layer; var laypage;
+        var laytpl;var form;
+        layui.use(['form', 'laypage', 'laytpl', 'layer'], function () {
+            form = layui.form;
+            laypage = layui.laypage;
+            laytpl = layui.laytpl;
+            layer = layui.layer;
+
+            FormEnumAuto();
+
+            var url = GetURL("Ajax_@(ViewContext.RouteData.Values["action"].ToString())");
+            $.ajax({
+                url: url,// 跳转到 action
+                data: {},
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    var R = eval(data);
+                    if (R.result == 0) { layer.alert("错误的请求,请刷新页面重试~"); return; }
+                    if (R.result == -1) { layer.alert("服务器出错,请刷新页面重试~"); return; }
+                    if (R.result == 2) { layer.alert("没有了~~"); return; }
+                    console.log(R.data);
+                    LayUI_Templete_Table_FillData(R.data);
+
+                    laypage.render({
+                        groups: 3,
+                        elem: 'laypage',
+                        curr: R.data.Model.PageIndex,
+                        count: R.data.Model.RowCount,//总页数
+                        limit: R.data.Model.PageSize,//	每页显示的条数。laypage将会借助 count 和 limit 计算出分页数。	Number	10
+                        limits: [5, 10, 20, 50, 100],
+                        layout: ['count', 'prev', 'next', 'page', 'limit', 'skip'],//	自定义排版。可选值有：count（总条目输区域）、prev（上一页区域）、page（分页区域）、next（下一页区域）、limit（条目选项区域）、 、skip（快捷跳页区域）
+                        jump: function (obj, first) {
+                            $("#laypage").data("pageindex", obj.curr);
+                            $("#laypage").data("pagesize", obj.limit);
+                            if (!first) {
+                                LayUI_Templete_Table_Load();
+                            }
+                        }
+                    });
+                },
+                error: function () {
+                    //alert("异常！");
+                }
+            });
+
+
+
+            function FormEnumAuto() {
+                $(".layui-form-type-enumac + div > div > input").focus(function () {
+                    var $Select = $(this).parent('div').parent('div').prev('select');
+                    var $Input = $(this);
+                    document.onkeydown = function (event) {
+                        var e = event || window.event || arguments.callee.caller.arguments[0];
+                        if (e && e.keyCode == 13) { // enter 键
+                            $.ajax({
+                                url: '@($"Ajax_{TableName}_SelectListItem_")' + $Select.attr('name'),
+                                data: { KeyWord: $Input.val() },
+                                type: 'post',
+                                cache: false,
+                                dataType: 'json',
+                                success: function (data) {
+                                    $Select.children('option').remove();
+                                    $.each(data.data, function (i, e) {
+                                        $Select.append("<option value='" + e.Value + "'>" + e.Text + "</option>");
+                                    });
+                                    document.onkeydown = null;
+                                    form.render('select');
+                                    FormEnumAuto();
+                                },
+                            })
+                        }
+                    };
+                });
+            };
+        });
+
+
+        $(document).ready(function () {
+            //
+            $("#SearchMore").click(function () {
+                $("#SearchMorePanel").slideToggle(500);
+            });
+
+            $("fieldset>legend").click(function () {
+                $(this).next('div').slideToggle(500);
+            });
+        });
+
+
+        //拼装要请求的Ajax URL
+        function GetURL(URL) {
+            var IsAsc = '@(Request["IsAsc"]??"false")';
+            var SortCode = "@(Request["SortCode"] ?? "ID")";
+            $("#Table table thead a").each(function (arg) {
+                if ($(this).children("span").hasClass("fa-sort-asc")) {
+                    IsAsc = true;
+                    SortCode = $(this).data("code");
+                }
+                if ($(this).children("span").hasClass("fa-sort-desc")) {
+                    IsAsc = false;
+                    SortCode = $(this).data("code");
+                }
+            });
+            URL = URL
+                + "?IsAsc=" + IsAsc
+                + "&SortCode=" + SortCode
+                @foreach(var m in Model.Model){
+                    <text> + "&@m.Key=" + "@m.Value"</text>
+                }
+                + "&PageIndex=" + $("#laypage").data("pageindex")
+                + "&PageSize=" + $("#laypage").data("pagesize");
+            return URL;
+        };
+
+        //Ajax请求数据 生成Table表
+        function LayUI_Templete_Table_Load() {
+            var url = GetURL("Ajax_@(TableName)_List");
+            var index = layer.load(1, { shade: [0.5, '#fff'], time: 20 * 1000 }); //又换了种风格，并且设定最长等待10秒
+            $.ajax({
+                url: url,// 跳转到 action
+                data: {},
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    var R = eval(data);
+                    if (R.result == 0) { layer.alert("错误的请求,请刷新页面重试~"); return; }
+                    if (R.result == -1) { layer.alert("服务器出错,请刷新页面重试~"); return; }
+                    if (R.result == 2) { layer.alert("没有了~~"); return; }
+                    console.log(R.data);
+                    LayUI_Templete_Table_FillData(R.data);
+                    layer.close(index);
+                },
+                error: function () {
+                    //alert("异常！");
+                }
+            });
+        };
+
+        //TMPL模板装填数据 添加排序表头
+        function LayUI_Templete_Table_FillData(Data) {
+            laytpl($("#Tmpl_Table").html())
+                .render(Data, function (R) {
+                    $("#Table").html(R);
+
+                    $("#Table table thead a").click(function () {
+                        var $A = $(this);
+
+                        if ($A.children("span").length > 0) {
+                            if ($A.children("span").hasClass("fa-sort-asc")) {
+                                $("#Table table thead a span").removeClass("fa-sort-asc").removeClass("fa-sort-desc");
+                                $A.children("span").addClass("fa-sort-desc");
+                            } else {
+                                $("#Table table thead a span").removeClass("fa-sort-asc").removeClass("fa-sort-desc");
+                                $A.children("span").addClass("fa-sort-asc");
+                            }
+                            LayUI_Templete_Table_Load();
+                        }
+                    });
+                });
+        };
+
+
+
+
+
+
+
+        function LayUI_Layer_OpeniFrame(Layer, Url, Title) {
+            var index = Layer.open({
+                type: 2,
+                title: Title,
+                scrollbar: false,
+                area: ['90%', '90%'],
+                maxmin: true,
+                resize: true,
+                shade: 0.5,
+                content: Url, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            })
+            //Layer.full(index);
+            return index;
+        }
+        function LayUI_Layer_CloseiFrame(R) {
+            layer.closeAll();
+            if (R.msg) {
+                layer.confirm(R.msg,
+                    { btn: ['确定', '取消'] },
+                    function () {
+                        if (R.result == 0) return;
+                        if (R.result == 1) location.href=GetURL('@(ViewContext.RouteData.Values["action"].ToString())');
+                        else {
+                            layer.alert(R.msg);
+                        }
+                    }, function () {
+                        return;
+                    });
+            }
+        }
+
+
+        function Excel_Export() {
+            var url = GetURL("@(TableName)_Export");
+            window.open(url);
+            //LayUI_Layer_OpeniFrame(layer, url);
+        }
+    </script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe615;</i>Search</legend>
+        <div class="layui-field-box">
+            @using (Html.BeginForm())
+            {
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-mid">内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="KeyWord" name="KeyWord" value="@Model.GetModel("KeyWord")" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-mid">时间</label>
+                            <div class="layui-input-inline" style="width:120px">
+                                @Html.TextBox("dt1", (String)Model.GetModel("dt1"), new { @class = "layui-input", onFocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width:120px">
+                                @Html.TextBox("dt2", (String)Model.GetModel("dt2"), new { @class = "layui-input", onFocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+                                @if (Model.Properties.Count > 0)
+                                {
+                                    <button type="button" class="layui-btn layui-btn-primary" id="SearchMore">更多</button>
+                                }
+
+                                @{
+                                    var lbtn_model = Model.Buttons.Where(p => p.Site == "model");
+
+                                    foreach (var item in lbtn_model)
+                                    {
+                                        <button class="layui-btn" type="button" onclick="@item.ClickScript">
+                                            @item.Name
+                                        </button>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="SearchMorePanel" style="display:none" class="layui-form-item">
+
+                        @foreach (var prop in Model.Properties)
+                        {
+                            if (prop.Type == "bool")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        @Html.DropDownList(prop.Code, new List<SelectListItem> {
+                                       new SelectListItem { Text="--是--" },
+                                       new SelectListItem { Text="--否--" },
+                                   }.Ex_AddDefault(Value: "null"))
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "datetime")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.GetModel(prop.Code)" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "date")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.GetModel(prop.Code)" class="layui-input" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "enum")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        @Html.DropDownList(prop.Code, Model.GetNode(prop.Code).Ex_AddDefault(), (Model.GetModel(prop.Code) ?? "").ToString(), new Dictionary<string, object> { { "lay-search", null } })
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "enumac")
+                            {
+                                <div class="layui-inline" style="color:#1aa094">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        @Html.DropDownList(prop.Code, Model.GetNode(prop.Code).Ex_AddDefault(), (Model.GetModel(prop.Code) ?? "").ToString(), new Dictionary<string, object> { { "lay-search", null }, { "class", "layui-form-type-enumac" } })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="@prop.Code" id="@prop.Code" value="@Model.GetModel(prop.Code)" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                    </div>
+                </div>
+                                    }
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe62d;</i>Table</legend>
+        <div class="layui-field-box">
+            <div id="Table">
+            </div>
+            <div id="laypage" data-pageindex="@(Request["PageIndex"]??"1")" data-pagesize="@(Request["PageSize"]??"10")">
+            </div>
+        </div>
+    </fieldset>
+</body>
+</html>

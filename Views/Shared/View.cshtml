@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+}
+@model LayUI.Data
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("fieldset>legend").click(function () {
+                $(this).next('div').slideToggle(500);
+            })
+        })
+    </script>
+    
+</head>
+<body>
+
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe60a;</i> View</legend>
+        <div class="layui-field-box" id="View">
+            @foreach (var prop in Model.Properties)
+            {
+                <fieldset class="layui-elem-field layui-field-title ">
+                    <legend style="font-size:1.2em;">@prop.Name [@prop.Code]</legend>
+                    <div class="layui-elem-quote" >
+                        @if (prop.Type == "video")
+                        { <video src="@Model.Model[prop.Code]" controls="controls" style="max-width:100%"/>
+                        }
+                        else if (prop.Type == "image")
+                        { <img src="@Model.Model[prop.Code]" style="max-width:100%" />
+                        }
+                        else if (prop.Type == "imagelist")
+                        {
+                            foreach (var image in (List<string>)(Model.Model[prop.Code].ToString().Ex_ToList()))
+                            {
+                                <img src="@image" style="max-width:32%" />
+                            }
+                        }
+                        else if (prop.Type == "text")
+                        {
+                           @Model.Model[prop.Code]
+                        }
+                        else if (prop.Type == "html")
+                        { 
+                          @Html.Raw(Model.Model[prop.Code])
+                        }else if (prop.Type == "enum")
+                        {
+                           @Model.Model[prop.Code]
+                        }
+                        else
+                        { 
+                           @Model.Model[prop.Code]
+                        }
+                    </div>
+                </fieldset>
+            }
+           
+        </div>
+    </fieldset>
+
+</body>
+</html>
+

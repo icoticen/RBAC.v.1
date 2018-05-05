@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "登陆";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <div style="position:fixed;top:0%;bottom:0%;left:0%;right:0%;background:#000000 url('../../Content/Static/Image/login-bg-blackstar.gif') repeat fixed center">
+            <div class="" style="position:absolute;top:50%;left:50%;background-color:rgba(95, 184, 120, 0.31);margin:-125px -160px;padding:10px;">
+                <div class="layui-row" style="font-size:28px;text-align:center;color:palevioletred">
+                    <span >LOGIN</span>
+                </div>
+                <hr class="layui-bg-red" />
+                <div class="layui-row" style="min-width:300px">
+                    <div class="layui-col-xs-offset1 layui-col-xs3" style="line-height:38px">Account</div>
+                    <div class="layui-col-xs7">
+                        <input type="text" id="AccountName" name="AccountName" value="" class="layui-input" />
+                    </div>
+                </div>
+                <br />
+                <div class="layui-row">
+                    <div class="layui-col-xs-offset1 layui-col-xs3" style="line-height:38px">Password</div>
+                    <div class="layui-col-xs7">
+                        <input type="password" id="AccountPsw" name="AccountPsw" value="" class="layui-input" />
+                    </div>
+                </div>
+                <br />
+                <div class="layui-row" style="text-align:right">
+                    <div class="layui-col-xs11">
+                        <input type="submit" class="layui-btn layui-btn-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+
+</html>

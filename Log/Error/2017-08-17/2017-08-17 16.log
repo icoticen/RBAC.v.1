@@ -1,0 +1,180 @@
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, M_Pagination Page) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 583
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass10_0.<T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 335
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:23:49
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, Int32 PageIndex, Int32 PageSize) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 574
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass11_0.<Ajax_T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 390
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:23:49
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, M_Pagination Page) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 583
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass10_0.<T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 335
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:22
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, Int32 PageIndex, Int32 PageSize) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 574
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass11_0.<Ajax_T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 390
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:23
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, M_Pagination Page) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 583
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass10_0.<T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 335
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:29
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, Int32 PageIndex, Int32 PageSize) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 574
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass11_0.<Ajax_T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 390
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:29
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, M_Pagination Page) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 583
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass10_0.<T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 335
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:50
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, Int32 PageIndex, Int32 PageSize) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 574
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass11_0.<Ajax_T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 390
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:24:51
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, M_Pagination Page) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 583
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass10_0.<T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 335
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:25:00
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.Data.ConstraintException: “T_SYS_DEPARTMENT_POSITION”的“EmpID”属性不能设置为“null”值。必须将该属性设置为类型为“System.Int32”的非 null 值。
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper.HandleEntityAppendOnly[TEntity](Func`2 constructEntityDelegate, EntityKey entityKey, EntitySet entitySet)
+   在 lambda_method(Closure , Shaper )
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   在 System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 K.Y.DLL.Model.M_Pagination.GetPagination[T](IOrderedQueryable`1 iList) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Model\M_Pagination.cs:行号 65
+   在 K.Y.DLL.Extension.Ex_GetPagination[T](IOrderedQueryable`1 OrderedQueryable, Int32 PageIndex, Int32 PageSize) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Extension.cs:行号 574
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.DEPARTMENTController.<>c__DisplayClass11_0.<Ajax_T_SYS_DEPARTMENT_POSITION_List>b__0(EAuth EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\DEPARTMENTController.cs:行号 390
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  2017/8/17 16:25:00
+

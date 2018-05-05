@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <title>@ViewBag.Title</title>
+    <style type="text/css">
+        #MainContent > div > div {
+            width: 100%;
+            height: 100%;
+        }
+            #MainContent > div > div > iframe {
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+    <script type="text/javascript">
+        var HasHide = false;
+        layui.use(['element', 'util'], function () {
+            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+            var util = layui.util;
+
+            //Tab 添加  切换
+            $('#SideMenu a').on('click', function () {
+                if ($(this).data("url") == "" || $(this).data("url") == "#") return;
+
+                var index = $("#MainContent iframe").index($('#f_' + $(this).data('id')));
+                if (index == -1)//切换到第2项（注意序号是从0开始计算）
+                {
+                    element.tabAdd('MainContent', {
+                        title: $(this).html() //用于演示
+                          , content: '<iframe id=f_' + $(this).data('id') + '  frameborder="0" scrolling="auto"  src="' + $(this).data("url") + '" ></iframe>'
+                         , id: "MainContent_f_" + $(this).data('id')
+                    });
+                }
+                element.tabChange('MainContent', "MainContent_f_" + $(this).data('id'));
+                if (!HasHide && window.innerWidth <= 640) $("#MenuSwichor").click();
+            });
+
+
+
+            $("#MenuSwichor")
+                .show()
+                .click(function () {
+                    if (HasHide) {
+                        HasHide = false;
+                        $("#MainContent").animate({ left: '200px' }, 250, function () {
+                            $("#SideMenu").fadeIn(100);
+                        });
+                        $("#MenuSwichor").html('@Html.Raw(ViewBag.SwitchLong)');
+                    }
+                    else {
+                        HasHide = true;
+                        $("#SideMenu").fadeOut(100, function () {
+                            $("#MainContent").animate({ left: '0px' }, 250);
+                        });
+                        $("#MenuSwichor").html('@Html.Raw(ViewBag.SwitchShort)');
+                    }
+                });
+            if (window.innerWidth <= 640) $("#MenuSwichor").click();
+            window.onresize = function () {
+                if (!HasHide && window.innerWidth <= 640) $("#MenuSwichor").click();
+                if (HasHide && window.innerWidth > 840) $("#MenuSwichor").click();
+            };
+            //alert(window.innerWidth);
+
+            util.fixbar({
+                bar1: true,
+                click: function (type) {
+                    console.log(type);
+                    if (type === 'bar1') {
+                        var $iframe = $("#MainContent >.layui-tab-content > .layui-show > iframe");
+                        // alert($iframe.attr("src"));
+                        $iframe.attr("src", $iframe.attr("src"));
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <!--Header-->
+    <ul class="layui-nav">
+
+
+        <li class="layui-nav-item">
+            <a id="MenuSwichor" style="font-family:'Microsoft YaHei';" href="#">
+                @Html.Raw(ViewBag.SwitchLong)
+            </a>
+        </li>
+
+       <!--<li class="layui-nav-item" style="float:right;">
+            <a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">我</a>
+            <dl class="layui-nav-child">
+
+                <dd><a href="javascript:;">修改信息</a></dd>
+                <dd><a href="javascript:;">安全管理</a></dd>
+                <dd><a href="javascript:;">退了</a></dd>
+            </dl>
+        </li>-->
+
+
+        @foreach (var link in (Dictionary<String, String>)ViewBag.TopMenu)
+        {
+            <li class="layui-nav-item @(link.Key == ViewBag.DefaultTab ? " layui-this" : "")" style="float:right"><a href="@link.Value" target="_parent">@link.Key</a></li>
+        }
+    </ul>
+    <!--LeftMenu-->
+    <ul id="SideMenu" class="layui-nav layui-nav-tree" lay-filter="test" style="overflow-y:scroll;position:absolute ;top:64px; left:0;bottom:0;">
+        <li class="layui-nav-item layui-nav-itemed">
+            <a href="#" data-id="00" data-url="@ViewBag.DefaultPage"><span class='layui-icon' style='font-size:18px;margin-right:5px;'>&#xe68e;</span>HOME</a>
+        </li>
+        @{var SideMenu = ViewBag.SideMenu;        }
+        @foreach (var item in ((IEnumerable<IKUS.LIB.MODEL.M_TreeNode>)SideMenu).Where(p => p.NodeLevel == 1))
+        {
+
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="#" data-id="@item.NodeID" data-url="#">@Html.Raw(item.NodeName)</a>
+                <dl class="layui-nav-child">
+                    @foreach (var p in ((IEnumerable<IKUS.LIB.MODEL.M_TreeNode>)SideMenu).Where(p => p.ParentNodeID == item.NodeID).OrderBy(p => p.NodeSortNo))
+                    {
+                        <dd> <a href="#" data-id="@p.NodeID" data-url="@p.NodeValue">@p.NodeName</a></dd>
+                    }
+                </dl>
+            </li>
+        }
+    </ul>
+    <!--MainContent-->
+    <div id="MainContent" class="layui-tab layui-tab-brief" lay-filter="MainContent" lay-allowClose="true" style="position:fixed; top:64px;right:0px;left:200px;bottom:0px;background-color:white;margin:5px;">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="MainContent_f_00">HOME</li>
+        </ul>
+        <div class="layui-tab-content" style="position:absolute; top:48px;bottom:0px;left:0px;right:0px;">
+            <div class="layui-tab-item layui-show" style="height:100%;width:100%">
+                @*<a href="#" style="top:120px" class="layui-tab-iframe-refresh-btn"><i class="layui-icon">&#xe63d;</i></a>*@
+                <iframe id="f_00" frameborder="0" scrolling="auto" src="@ViewBag.DefaultPage"  style="height:100%;width:100%"></iframe>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

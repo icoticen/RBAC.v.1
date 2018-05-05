@@ -1,0 +1,90 @@
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.InvalidOperationException: 支持“EAuth”上下文的模型已在数据库创建后发生更改。请考虑使用 Code First 迁移更新数据库(http://go.microsoft.com/fwlink/?LinkId=238269)。
+   在 System.Data.Entity.CreateDatabaseIfNotExists`1.InitializeDatabase(TContext context)
+   在 System.Data.Entity.Internal.InternalContext.<>c__DisplayClassf`1.<CreateInitializationAction>b__e()
+   在 System.Data.Entity.Internal.InternalContext.PerformInitializationAction(Action action)
+   在 System.Data.Entity.Internal.InternalContext.PerformDatabaseInitialization()
+   在 System.Data.Entity.Internal.LazyInternalContext.<InitializeDatabase>b__4(InternalContext c)
+   在 System.Data.Entity.Internal.RetryAction`1.PerformAction(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabaseAction(Action`1 action)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabase()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   在 System.Linq.Queryable.OrderBy[TSource,TKey](IQueryable`1 source, Expression`1 keySelector)
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.PRIVIEGEController.<>c__DisplayClass2_0.<T_SYS_GROUP_List>b__0(EAuth EF) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\PRIVIEGEController.cs:行号 40
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  -17/06/22- 17:36:36
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.InvalidOperationException: 支持“EAuth”上下文的模型已在数据库创建后发生更改。请考虑使用 Code First 迁移更新数据库(http://go.microsoft.com/fwlink/?LinkId=238269)。
+   在 System.Data.Entity.CreateDatabaseIfNotExists`1.InitializeDatabase(TContext context)
+   在 System.Data.Entity.Internal.InternalContext.<>c__DisplayClassf`1.<CreateInitializationAction>b__e()
+   在 System.Data.Entity.Internal.InternalContext.PerformInitializationAction(Action action)
+   在 System.Data.Entity.Internal.InternalContext.PerformDatabaseInitialization()
+   在 System.Data.Entity.Internal.LazyInternalContext.<InitializeDatabase>b__4(InternalContext c)
+   在 System.Data.Entity.Internal.RetryAction`1.PerformAction(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabaseAction(Action`1 action)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabase()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   在 System.Linq.Queryable.OrderByDescending[TSource,TKey](IQueryable`1 source, Expression`1 keySelector)
+   在 VEHICLEDETECTING.Models.Static.myController.Admin.TreeList[T](DbContext EF, Func`2 FSwitch) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Models\Static\myController.cs:行号 316
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.PRIVIEGEController.<T_SYS_GROUP_List>b__2_1(EAuth EF) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\PRIVIEGEController.cs:行号 50
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 628
+  >>>>>>  -17/06/22- 17:36:36
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.InvalidOperationException: 支持“EAuth”上下文的模型已在数据库创建后发生更改。请考虑使用 Code First 迁移更新数据库(http://go.microsoft.com/fwlink/?LinkId=238269)。
+   在 System.Data.Entity.CreateDatabaseIfNotExists`1.InitializeDatabase(TContext context)
+   在 System.Data.Entity.Internal.InternalContext.<>c__DisplayClassf`1.<CreateInitializationAction>b__e()
+   在 System.Data.Entity.Internal.InternalContext.PerformInitializationAction(Action action)
+   在 System.Data.Entity.Internal.InternalContext.PerformDatabaseInitialization()
+   在 System.Data.Entity.Internal.LazyInternalContext.<InitializeDatabase>b__4(InternalContext c)
+   在 System.Data.Entity.Internal.RetryAction`1.PerformAction(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabaseAction(Action`1 action)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabase()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   在 System.Linq.Queryable.OrderBy[TSource,TKey](IQueryable`1 source, Expression`1 keySelector)
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.PRIVIEGEController.<>c__DisplayClass2_0.<T_SYS_GROUP_List>b__0(EAuth EF) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\PRIVIEGEController.cs:行号 40
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  -17/06/22- 17:37:27
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.NotSupportedException: LINQ to Entities 不支持 LINQ 表达式节点类型“Invoke”。
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.NotSupportedTranslator.Translate(ExpressionConverter parent, Expression linq)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.TranslateLambda(LambdaExpression lambda, DbExpression input)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.TranslateLambda(LambdaExpression lambda, DbExpression input, DbExpressionBinding& binding)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.MethodCallTranslator.OneLambdaTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, DbExpression& source, DbExpressionBinding& sourceBinding, DbExpression& lambda)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SelectTranslator.Translate(ExpressionConverter parent, MethodCallExpression call)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, SequenceMethod sequenceMethod)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.MethodCallTranslator.TypedTranslate(ExpressionConverter parent, MethodCallExpression linq)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.TypedTranslator`1.Translate(ExpressionConverter parent, Expression linq)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   在 System.Data.Entity.Core.Objects.ELinq.ExpressionConverter.Convert()
+   在 System.Data.Entity.Core.Objects.ELinq.ELinqQueryState.GetExecutionPlan(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__6()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__0()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 VEHICLEDETECTING.Models.Static.myController.Admin.TreeList[T](DbContext EF, Func`2 FSwitch) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Models\Static\myController.cs:行号 316
+   在 VEHICLEDETECTING.Areas.Authority.Controllers.PRIVIEGEController.<T_SYS_GROUP_List>b__2_1(EAuth EF) 位置 K:\CODE\YD\OutSide\VEHICLEDETECTING\VEHICLEDETECTING\Areas\Authority\Controllers\PRIVIEGEController.cs:行号 50
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 628
+  >>>>>>  -17/06/22- 17:39:18
+

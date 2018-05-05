@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+}
+@*@model II_Group*@
+@model LayUI.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <link href="~/Content/zTree/v3.5.29/css/metroStyle/metroStyle.css" rel="stylesheet" />
+    <script src="~/Content/zTree/v3.5.29/js/jquery.ztree.all.min.js"></script>
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.3.1/echarts.min.js"></script>*@
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+
+
+        var layer;
+        var selectedtreenode = { id: 0, pId: 0 };
+        layui.use(['form', 'layer', 'tree'], function () {
+            var form = layui.form;
+            layer = layui.layer;
+            var setting = {
+                check: {
+                    enable: true,
+                    chkboxType: {
+                        "Y": "ps", "N": "ps"
+                    },
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "pId",
+                    }
+                },
+                view: {
+                    fontCss: function setFontCss(treeId, treeNode) {
+                        return treeNode.color ? {color:treeNode.color} : {};
+                    },
+                },
+                callback: {
+                    onClick: function (event, treeId, treeNode, clickFlag) {
+                        selectedtreenode = treeNode;
+                    },
+                    onDblClick: function (event, treeId, treeNode, clickFlag) {
+                        selectedtreenode = treeNode;
+                        @Html.Raw(Model.zTreeData?.onDoubleClick);
+                    },
+                    onCheck: function (event, treeId, treeNode, clickFlag) {
+                        zTree_Check_UpdateExtra();
+                    },
+                }
+            };
+
+            $(document).ready(function () {
+                $.fn.zTree.init($("#TreeView"), setting,
+                    @Html.Raw(Model.zTreeData.TreeNodes.Ex_ToJson())
+                    );
+                zTree_Check_UpdateExtra();
+            });
+
+        });
+
+        function zTree_Check_UpdateExtra(){
+            var zTree = $.fn.zTree.getZTreeObj("TreeView");
+            var L = zTree.getCheckedNodes(true);
+            @foreach (var prop in Model.Properties.ToList())
+            {
+                <Text>
+            $("#@prop.Code").val('');
+            </Text>
+            }
+
+            $.each(L, function() {
+                var e = this;
+                @foreach (var prop in Model.Properties.ToList())
+                {
+                    <Text>
+                if(e.data&&e.data.@prop.Code)
+                    $("#@prop.Code").val(e.data.@prop.Code+','+ $("#@prop.Code").val());
+                </Text>
+                }
+            });
+        }
+
+        function LayUI_Layer_OpeniFrame(Layer, Url, Title) {
+            var index= Layer.open({
+                type: 2,
+                title: Title,
+                scrollbar: false,
+                area: ['90%', '90%'],
+                maxmin: true,
+                resize :true,
+                shade: 0.5,
+                content: Url, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            })
+            //Layer.full(index);
+            return index;
+        }
+        function LayUI_Layer_CloseiFrame(R) {
+            layer.closeAll();
+            if (R.msg) {
+                layer.confirm(R.msg,
+                    { btn: ['确定', '取消'] },
+                    function () {
+                        if (R.result == 0) return;
+                        if (R.result == 1) window.location.reload();
+                        else {
+                            layer.alert(R.msg);
+                        }
+                    }, function () {
+                        return;
+                    });
+            }
+        }
+    </script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe62d;</i>Tree</legend>
+        <div class="layui-field-box">
+            <ul id="TreeView" class="ztree" style="margin:auto"></ul>
+            <hr />
+            @using (Html.BeginForm())
+            {
+                foreach (var prop in Model.Properties.ToList())
+                {
+                    if (prop.Type == "ztreeextra")
+                    {
+                        <input type="hidden" id="@prop.Code" name="@prop.Code" value="@Model.GetModel(prop.Code)" class="layui-input" />
+                    }
+                }
+                <button class="layui-btn" lay-submit lay-filter="formsubmit" id="formsubmit">立即提交</button>
+            }
+        </div>
+    </fieldset>
+
+</body>
+</html>

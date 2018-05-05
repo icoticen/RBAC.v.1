@@ -1,0 +1,520 @@
+﻿@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+    //var Model = ViewBag.Data as LayUI.Data;
+
+}
+@model  LayUI.Data
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <script src="~/Content/My97DatePicker/v4.8/WdatePicker.js"></script>
+
+    <link href="~/Content/WangEditor/v3.0.8/wangEditor.min.css" rel="stylesheet" />
+    <script src="~/Content/WangEditor/v3.0.8/wangEditor.min.js"></script>
+
+    <script id="Tmpl_Form" type="text/html">
+
+    </script>
+
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+        @*var Model = eval(@Html.Raw(ViewBag.Result));*@
+        var layer; var upload;var form;
+        layui.use(['form', 'layer', 'upload'], function () {
+            form = layui.form;
+            layer = layui.layer;
+            upload = layui.upload;
+            //var richindexarr = new Array();
+            //layedit.set({
+            //    uploadImage: {
+            //        url: '/Admin/Main/LayUI_FilePost' //接口url
+            //      , type: 'post' //默认post
+            //    }
+            //});
+
+            @foreach (var prop in Model.Properties)
+                {
+                    switch (prop.Type)
+                    {
+                        case "list":
+                           <text>_FormCheckBox('@prop.Code');</text>
+                            break;
+                       case "listac":
+                           <text>_FormAutoComplete('@prop.Code');</text>
+                            break;
+                        case "imagelist":
+                            <text>_FormImageList('@prop.Code');</text>
+                            break;
+                        case "bool":
+                            <text>_FormSwitch('@prop.Code');</text>
+                            break;
+                        case "image":
+                            <text>_FormImage('@prop.Code');</text>
+                            break;
+                        case "video":
+                            <text>_FormVideo('@prop.Code');</text>
+                           break;
+                        case "html":
+                             <text> new wangEditor("@prop.Code").create();@* richindexarr.push(layedit.build('@prop.Code', { height: 512 }));*@ </text>
+                            break;
+                    }
+                }
+
+
+            //设置Image表单
+            function _FormImage(ElementName) {
+                //Input初始化
+                $("#_" + ElementName).val($("#" + ElementName).val());
+                //容器初始化
+                $("#c_" + ElementName).html(_getformimg($("#" + ElementName).val()));
+                //绑定事件Input变更时容器替换图片
+                $("#_" + ElementName).change(function () {
+                    $("#c_" + ElementName).html(_getformimg($("#_" + ElementName).val()));
+                    //更新最终值
+                    $("#" + ElementName).val($("#_" + ElementName).val());
+                });
+                $("#v_" + ElementName).click(function () { $("#c_" + ElementName).slideToggle(500); });
+                upload.render({
+                    url: "/Admin/Main/LayUI_FilePost?FileElementName=f_" + ElementName,
+                    elem: "#b_" + ElementName,  //指定原始元素，默认直接查找class="layui-upload-file"
+                    method: 'post', //上传接口的http类型
+                    accept: 'images',
+                    field: "f_" + ElementName,
+                    done: function (res) {
+                        //更新Input
+                        $("#_" + ElementName).val(res.data.src);
+                        //更新容器
+                        $("#c_" + ElementName).html(_getformimg($("#_" + ElementName).val()));
+                        //更新最终值
+                        $("#" + ElementName).val($("#_" + ElementName).val());
+                    }
+                });
+            }
+            //设置Video表单
+            function _FormVideo(ElementName) {
+                //Input初始化
+                $("#_" + ElementName).val($("#" + ElementName).val());
+                //容器初始化
+                $("#c_" + ElementName).html(_getformvideo($("#" + ElementName).val()));
+                //绑定事件Input变更时容器替换视频
+                $("#_" + ElementName).change(function () {
+                    $("#c_" + ElementName).html(_getformvideo($("#_" + ElementName).val()));
+                    //更新最终值
+                    $("#" + ElementName).val($("#_" + ElementName).val());
+                });
+                $("#v_" + ElementName).click(function () { $("#c_" + ElementName).slideToggle(500); });
+            }
+            //设置ImageList表单
+            function _FormImageList(ElementName) {
+                //初始化
+                $("#" + ElementName).val().split(',').forEach(function (e) {
+                    if (e != "") {
+                        $("#c_" + ElementName).append(_getformimg(e));
+                    }
+                });
+                //绑定编辑事件
+                _FormImageListEdit(ElementName);
+                //绑定事件Input变更时容器添加图片
+                $("#_" + ElementName).change(function () {
+                    $("#c_" + ElementName).append(_getformimg($("#_" + ElementName).val()));
+                    //绑定编辑事件
+                    _FormImageListEdit(ElementName);
+                    //更新最终值
+                    _FormImageListUpdate(ElementName);
+                });
+
+                upload.render({
+                    url: "/Admin/Main/LayUI_FilePost?FileElementName=f_" + ElementName,
+                    elem: "#b_" + ElementName,  //指定原始元素，默认直接查找class="layui-upload-file"
+                    method: 'post', //上传接口的http类型   
+                    accept: 'images',
+                    field:"f_" + ElementName,
+                    done: function (res) {
+                        //更新Input
+                        $("#_" + ElementName).val(res.data.src);
+                        //容器添加图片
+                        $("#c_" + ElementName).append(_getformimg($("#_" + ElementName).val()));
+                        //绑定编辑事件
+                        _FormImageListEdit(ElementName);
+                        //更新最终值
+                        _FormImageListUpdate(ElementName);
+                    }
+                });
+                $("#v_" + ElementName).click(function () { $("#c_" + ElementName).slideToggle(500); });
+
+            }
+            //设置ImageList编辑功能
+            function _FormImageListEdit(ElementName) {
+                $("#c_" + ElementName + " img").unbind().click(function () {
+                    var $Img = $(this);
+                    var $index = layer.open({
+                        type: 2,
+                        btn: ["新窗口打开", "删除", "取消"],
+                        btn1: function (index, layero) {
+                            window.open($Img.attr("src"), "_blank");
+                        }, btn2: function (index, layero) {
+                            $Img.remove();
+                            //重新统计Container的值
+                            _FormImageListUpdate(ElementName);
+                        }, btn3: function (index, layero) {
+                        },
+                        title: '图片',
+                        area: ['80%', '80%'],
+                        shade: 0.3,
+                        maxmin: true,
+                        fixed: true,
+                        content: $Img.attr("src") //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                    layer.iframeAuto($index);
+                });
+            }
+            //同步更新ImageList对应Input最终值
+            function _FormImageListUpdate(ElementName) {
+                //重新统计Container的值
+                $("#" + ElementName).val("");
+                $("#c_" + ElementName + " img").each(function (e) {
+                    $("#" + ElementName).val($("#" + ElementName).val() + "," + $(this).attr("src"));
+                })
+                //_FormImageListEdit(ElementName);
+            }
+            //设置CheckBox值同步更新 ElementName对应layui-filter
+            function _FormCheckBox(ElementName) {
+                //监听切换事件
+                form.on('checkbox(' + ElementName + ')', function (data) {
+                    //同步表单
+                    if (data.elem.checked)
+                        $(data.elem).attr("checked", "checked");
+                    else
+                        $(data.elem).removeAttr("checked");
+                    //更新最终值
+                    $("#" + ElementName).val("");
+                    $.each($("#c_" + ElementName + " input[type='checkbox']"), function () {
+                        if ($(this).attr("checked") == "checked") $("#" + ElementName).val($(this).val() + "," + $("#" + ElementName).val());
+                    });
+                });
+
+                //$("#" + ElementName).val("");
+                //$.each($("#c_" + ElementName + " input[type='checkbox']"), function () {
+                //    if ($(this).attr("checked") == "checked") $("#" + ElementName).val($(this).val() + "," + $("#" + ElementName).val());
+                //});
+
+            }
+            function _FormSwitch(ElementName) {
+
+                //监听切换事件
+                form.on('switch(' + ElementName + ')', function (data) {
+                    //同步表单
+                    if (data.elem.checked) {
+                        $("#" + ElementName).val("true");
+                        $(data.elem).attr("checked", "checked");
+                    }
+                    else {
+                        $("#" + ElementName).val("false");
+                        $(data.elem).removeAttr("checked");
+                    }
+                });
+            }
+
+
+
+
+
+            function _FormAutoComplete(ElementName) {
+
+                //
+                return new autoComplet({
+                    compValue: [],
+                    selectValue: $("#" + ElementName).val().split(','),
+                    parent: $('#p_' + ElementName),  // 绑定的DOM对象
+                    input: $('#p_' + ElementName + ' .plus-autoComplete-inputBox'),
+                    ul: $('#p_' + ElementName + ' ul'),
+                    spanList: $('#p_' + ElementName + ' .plus-autoComplete-spanList'),
+                    closeUL: true,     //是否在选择过后关闭填充列表
+                    url: '/Admin/Ajax_@ViewContext.RouteData.Values["action"].ToString().ToUpper().Replace("INSERT","").Replace("UPDATE","")' + ElementName,
+                    callback: function (e) {
+                        $("#" + ElementName).val(e);
+                        //alert($("#" + ElementName).val());
+                    }
+                });
+            }
+
+
+            function FormEnumAuto() {
+                $(".layui-form-type-enumac + div > div > input").focus(function () {
+                    var $Select = $(this).parent('div').parent('div').prev('select');
+                    var $Input = $(this);
+                    document.onkeydown = function (event) {
+                        var e = event || window.event || arguments.callee.caller.arguments[0];
+                        if (e && e.keyCode == 13) { // enter 键
+                            $.ajax({
+                                url: '@($"Ajax_{@ViewContext.RouteData.Values["action"].ToString().ToUpper().Replace("INSERT", "").Replace("UPDATE", "")}_SelectListItem_")' + $Select.attr('name'),
+                                data: { KeyWord: $Input.val() },
+                                type: 'post',
+                                cache: false,
+                                dataType: 'json',
+                                success: function (data) {
+                                    $Select.children('option').remove();
+                                    $.each(data.data, function (i, e) {
+                                        $Select.append("<option value='" + e.Value + "'>" + e.Text + "</option>");
+                                    });
+                                    document.onkeydown = null;
+                                    form.render('select');
+                                    FormEnumAuto();
+                                },
+                            })
+                        }
+                    };
+                });
+            };
+
+            //拼接Image标签
+            function _getformimg(URL) {
+                if (URL.length < 5) return '';
+                return '<img src="' + URL + '" style="max-width:128px;max-height:128px" />';
+            }
+            //拼接Video标签
+            function _getformvideo(URL) {
+                if (URL.length < 5) return '';
+                return '<video src="' + URL + '" controls="controls" style="max-width:512px"/>';
+            }
+
+            var CanSubmit = true;
+            form.on('submit(formsubmit)', function (data) {
+                if (!CanSubmit) {
+                    layer.alert("不要重复提交诶~");
+                    return false;
+                }
+                //richindexarr.forEach(function (e) {
+                //    layedit.sync(e);
+                //})
+                CanSubmit = false;
+                //return false;
+            });
+        });
+
+        $(document).ready(function () {
+            $("fieldset>legend").click(function () {
+                $(this).next('div').slideToggle(500);
+            })
+        })
+    </script>
+</head>
+<body style="height:100%">
+    @using (Html.BeginForm())
+    {
+        <fieldset class="layui-elem-field">
+            <legend><i class="layui-icon">&#xe642;</i>@ViewBag.Title</legend>
+            <div class="layui-field-box" id="Form">
+                <div class="layui-form">
+                    @foreach (var prop in Model.Properties.ToList())
+                    {
+                        if (prop.Code == "ShelveDateTime")
+                        {
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">时间</label>
+                                <div class="layui-input-inline" style="width:150px">
+                                    <input type="text" id="ShelveDateTime" name="ShelveDateTime" value="@Model.Model["ShelveDateTime"]" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                                </div>
+                                <div class="layui-form-mid">-</div>
+                                <div class="layui-input-inline" style="width:150px">
+                                    <input type="text" id="UnShelveDateTime" name="UnShelveDateTime" value="@Model.Model["UnShelveDateTime"]" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss'})" />
+                                </div>
+                            </div>
+                        }
+                        else if (prop.Code == "UnShelveDateTime")
+                        {
+
+                        }
+                        else
+                        {
+                            <div class="layui-form-item">
+                                @if (prop.Type == "image")
+                                {
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label" for="_@prop.Code">@prop.Name</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" id="_@prop.Code" class="layui-input" value="@Model.Model[prop.Code]" />
+                                            <input type="hidden" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" />
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            @*http://download.95dao.com/app/cgds/pic/201708/22/f_FaceImage_d98cf93209b7b1ac.png*@
+                                            <button type="button" class="layui-btn layui-btn-danger" id="b_@prop.Code"><i class="layui-icon">&#xe681;</i></button>
+                                            @*<input type="file" id="f_@prop.Code" name="f_@prop.Code" class="layui-upload-file" lay-title="浏览">*@
+                                            @*</div>
+                                                <div class="layui-input-inline">*@
+                                            <input type="button" id="v_@prop.Code" class="layui-btn" value="查看">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline layui-elem-quote" id="c_@prop.Code">
+                                    </div>
+
+                                }
+                                else if (prop.Type == "imagelist")
+                                {
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label" for="_@prop.Code">@prop.Name</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" id="_@prop.Code" class="layui-input" />
+                                            <input type="hidden" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" />
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <button type="button" class="layui-btn layui-btn-danger" id="b_@prop.Code"><i class="layui-icon">&#xe681;</i></button>
+                                            @*<input type="file" id="f_@prop.Code" name="f_@prop.Code" class="layui-upload-file" lay-title="浏览">*@
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="button" id="v_@prop.Code" class="layui-btn" value="查看">
+                                        </div>
+                                    </div>
+                                    <div class="layui-elem-quote" id="c_@prop.Code">
+                                    </div>
+                                }
+                                else if (prop.Type == "video")
+                                {
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label" for="_@prop.Code">@prop.Name</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" id="_@prop.Code" class="layui-input" />
+                                            <input type="hidden" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" />
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="button" id="v_@prop.Code" class="layui-btn" value="查看">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline layui-elem-quote" id="c_@prop.Code">
+                                    </div>
+                                }
+                                else if (prop.Type == "bool")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        @Html.CheckBox(prop.Code, (bool?)Model.GetModel(prop.Code) ?? false, new Dictionary<string, object>{
+                                   {"lay-skin","switch"},})
+                                    </div>
+                                }
+                                else if (prop.Type == "html")
+                                {
+
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        <textarea id="@prop.Code" name="@prop.Code" class="layui-textarea" style="height:500px">@Model.Model[prop.Code]</textarea>
+                                    </div>
+                                }
+                                else if (prop.Type == "textarea")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        <textarea id="@prop.Code" name="@prop.Code" class="layui-textarea">@Model.Model[prop.Code]</textarea>
+                                    </div>
+                                }
+                                else if (prop.Type == "datetime")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                                    </div>
+                                }
+                                else if (prop.Type == "date")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                    </div>
+                                }
+                                else if (prop.Type == "enum")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        @Html.DropDownList(prop.Code, Model.GetNode(prop.Code).Ex_SetSelectedWithValue(Model.GetModel(prop.Code)?.ToString()??"").ToList(), new Dictionary<string, object> { { "lay-search", null } })
+                                    </div>
+                                }
+                                @*else if (prop.Type == "acenum")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        @Html.DropDownList(prop.Code, (List<SelectListItem>)Model.GetNode(prop.Code).Ex_SetSelected((int?)Model.GetModel(prop.Code)), new Dictionary<string, object> { { "lay-search", null } })
+                                    </div>
+                                }*@
+                                else if (prop.Type == "list")
+                                {
+                                    <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-block" id="c_@prop.Code">
+                                        <input type="hidden" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" />
+                                        @{
+                                    var node = Model.GetNode(prop.Code);
+                                    var lids = ((string)Model.Model[prop.Code]).Ex_ToList();
+                                    foreach (var elem in node)
+                                    {
+                                        if (lids.Contains(elem.Value))
+                                        {
+                                            <input type="checkbox" value="@elem.Value" lay-filter="@prop.Code" title="@elem.Text" checked />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" value="@elem.Value" lay-filter="@prop.Code" title="@elem.Text" />
+                                        }
+                                    }
+                                        }
+                                    </div>
+                                }
+                                else if (prop.Type == "listac")
+                                {
+                                    <label class="layui-form-label">@prop.Name</label>
+                                    <div class="layui-input-block">
+                                        <div id="p_@prop.Code" class="plus-autoComplete">
+                                            <div class="plus-autoComplete-spanList">
+                                                @{
+                                                    var node = Model.GetNode(prop.Code);
+                                                    foreach (var elem in node)
+                                                    {
+                                                        <span data_id='@elem.Value'>@elem.Text<input type='button' value='×' /></span>
+                                                    }
+                                                }
+                                            </div>
+                                            <input type="hidden" name="@prop.Code" id="@prop.Code" value="@Model.GetModel(prop.Code)" />
+                                            <input type="text" class="plus-autoComplete-inputBox" />
+                                            <ul></ul>
+                                        </div>
+                                    </div>
+                                }
+                                else if (prop.Type == "hidden")
+                                {
+                                    <input type="hidden" name="@prop.Code" id="@prop.Code" value="@Model.Model[prop.Code]" />
+                                }
+                                else
+                                {
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" for="@prop.Code">@prop.Name</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.Model[prop.Code]" class="layui-input" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formsubmit" id="formsubmit">立即提交</button>
+                            @*<button type="reset" class="layui-btn layui-btn-primary">重置</button>*@
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    }
+</body>
+
+
+
+</html>

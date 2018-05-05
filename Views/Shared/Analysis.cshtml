@@ -1,0 +1,438 @@
+﻿@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+    String TableName = (String)ViewBag.TableName ?? ViewContext.RouteData.Values["action"].ToString().ToLower().Replace("_list", "");
+
+}
+@model LayUI.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <link href="~/Content/FontAwesome/v4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script src="~/Content/My97DatePicker/v4.8/WdatePicker.js"></script>
+
+    @*<script src="~/Content/EChart/v3.7.0/echarts.all.js"></script>*@
+    <script src="~/Content/EChart/v3.7.0/echarts.all.min.js"></script>
+    <script src="~/Content/EChart/v3.7.0/skin/dark.js"></script>
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.3.1/echarts.min.js"></script>*@
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+        var EChartOption= {
+            title: {
+                text: 'ECHART @ViewBag.Title'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                top: '10%',
+                right: '0',
+                width: '150px',
+                data: [],
+            },
+            dataZoom: [
+                {
+                    show: true,
+                    realtime: true,
+                    start: 0,
+                    end: 100,
+                    xAxisIndex: [0],
+                    filterMode: 'filter',
+                },
+                {
+                    type: 'inside',
+                    realtime: true,
+                    start: 0,
+                    end: 100,
+                    xAxisIndex: [0],
+                    filterMode: 'filter',
+                }
+            ],
+            grid: {
+                left: '3%',
+                right: '150px',
+                bottom: '3%',
+                top:'10%',
+                height:'80%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    magicType: {
+                        type: ['line', 'bar', 'stack', 'tiled'],
+                    },
+                    dataZoom: {},
+                    dataView: { readOnly: true },
+                    saveAsImage: {},
+                    restore: {},
+                },
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+            ],
+        };
+    </script>
+
+    <script type="text/javascript">
+
+
+        var form;var element;
+        layui.use(['form', ], function () {
+            form = layui.form;
+            element = layui.element;
+
+
+            form.on('checkbox', function(data){
+                if (data.elem.checked) {
+                    $(data.elem).attr("checked", "checked");
+                }
+                else {
+                    $(data.elem).removeAttr("checked");
+                }
+                var val=",";
+                $("input[type='checkbox'][lay-filter='"+$(data.elem).attr("lay-filter")+"']").each(function(){
+                    if($(this).attr('checked')=="checked")
+                    {
+                        val+=$(this).attr('value')+',';
+                    };
+                });
+                $("#"+$(data.elem).attr("lay-filter")).val(val);
+
+                var url=GetURL('Ajax_@(ViewContext.RouteData.Values["action"].ToString())');
+                $.ajax({
+                    url: url,// 跳转到 action
+                    data: {},
+                    type: 'post',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var R = eval(data);
+                        if (R.result == 0) { layer.alert("错误的请求,请刷新页面重试~"); return; }
+                        if (R.result == -1) { layer.alert("服务器出错,请刷新页面重试~"); return; }
+                        if (R.result == 2) { layer.alert("没有了~~"); return; }
+                        EChartOption.series = R.data.series;
+                        EChartOption.legend.data = R.data.legend.data;
+                        EChartOption.xAxis =R.data.xAxis;
+                        eChartReload();
+                    },
+                    error: function () {
+                        //alert("异常！");
+                    }
+                })
+            });
+        });
+
+        var eChartCanReload=false;
+        var myChart ;
+        $(document).ready(function () {
+            $("#SearchMore").click(function () {
+                $("#SearchMorePanel").slideToggle(500);
+            })
+
+            $("fieldset>legend").click(function () {
+                $(this).next('div').slideToggle(500);
+            });
+            $("#eChartOptionSwitcher").click(function () {
+                $("#eChartOption").slideToggle(500);
+            });
+            var ThisEChartOption=@(Html.Raw(Model?.EChartData?.EChartOption?.Ex_ToJson()??"{}"));
+            EChartOption.series = ThisEChartOption.series;
+            EChartOption.legend.data = ThisEChartOption.legend.data;
+            EChartOption.xAxis =ThisEChartOption.xAxis;
+            myChart = echarts.init(document.getElementById('EChart'));
+            myChart.setOption(EChartOption);
+            window.onresize = function () {
+                eChartCanReload=true;
+                window.setTimeout(function(){
+                    if(eChartCanReload){
+                        eChartCanReload=false;
+                        eChartReload();
+                    }
+                },500);
+            }
+        });
+        function eChartReload(){
+            if(!myChart.isDisposed()){
+                myChart.dispose();
+            }
+            myChart = echarts.init(document.getElementById('EChart'));
+            myChart.setOption(EChartOption);
+        }
+
+        function GetURL(URL) {
+            var IsAsc = '@(Request["IsAsc"]??"false")';
+            var SortCode = "@(Request["SortCode"] ?? "ID")";
+            $("#Table table thead a").each(function (arg) {
+                if ($(this).children("span").hasClass("fa-sort-asc")) {
+                    IsAsc = true;
+                    SortCode = $(this).data("code");
+                }
+                if ($(this).children("span").hasClass("fa-sort-desc")) {
+                    IsAsc = false;
+                    SortCode = $(this).data("code");
+                }
+            });
+            URL = URL
+                + "?"
+            @foreach(var m in Model.Model){
+                <text> + "&@m.Key=" + "@m.Value"</text>
+            }
+                +"";
+            $("#eChartOption  input[type='hidden']").each(function(){
+                URL=  URL+"&"+$(this).attr('id')+"="+$(this).val();
+            });
+            return URL;
+        };
+    </script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe615;</i>Search</legend>
+        <div class="layui-field-box">
+            @using (Html.BeginForm())
+            {
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-mid">KeyWord</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="KeyWord" name="KeyWord" value="@Model.GetModel("KeyWord")" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-mid">DateTime</label>
+                            <div class="layui-input-inline" style="width:120px">
+                                @Html.TextBox("dt1", (String)Model.GetModel("dt1"), new { @class = "layui-input", onFocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width:120px">
+                                @Html.TextBox("dt2", (String)Model.GetModel("dt2"), new { @class = "layui-input", onFocus = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">Search</button>
+                                @if (Model.Properties.Count > 0)
+                                {
+                                    <button type="button" class="layui-btn layui-btn-primary" id="SearchMore">More</button>
+                                }
+
+                                @{
+                                    var lbtn_model = Model.Buttons.Where(p => p.Site == "model");
+
+                                    foreach (var item in lbtn_model)
+                                    {
+                                        <button class="layui-btn" type="button" onclick="@item.ToHtml()">
+                                            @item.Name
+                                        </button>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="SearchMorePanel" style="display:none" class="layui-form-item">
+
+                        @foreach (var prop in Model.Properties)
+                        {
+                            if (prop.Type == "bool")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        @Html.DropDownList(prop.Code, new List<SelectListItem> {
+                                       new SelectListItem { Text="--是--" },
+                                       new SelectListItem { Text="--否--" },
+                                   }.Ex_AddDefault(Value: "null"))                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "echartoption")
+                            {
+                                Html.Raw($"<!---Here Is echartoption {prop.Code}--->");
+                            }
+                            else if (prop.Type == "datetime")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.GetModel(prop.Code)" class="layui-input" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "date")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="@prop.Code" name="@prop.Code" value="@Model.GetModel(prop.Code)" class="layui-input" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                    </div>
+                                </div>
+                            }
+                            else if (prop.Type == "enum")
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid" for="@prop.Code">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        @Html.DropDownList(prop.Code, Model.GetNode(prop.Code).Ex_AddDefault(), (Model.GetModel(prop.Code) ?? "").ToString(), new Dictionary<string, string>())
+                                        @*<select id="@prop.Code" name="@prop.Code">
+                                                @foreach (var node in Model.Nodes)
+                                                {
+                                                    if (node.Key == prop.Code)
+                                                    {
+                                                        foreach (var elem in node.Elements)
+                                                        {
+                                                            if (elem.Value == Model.Model[prop.Code].ToString())
+                                                            {
+                                                                <option value="@elem.Value" selected>@elem.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@elem.Value">@elem.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </select>*@
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="layui-inline">
+                                    <label class="layui-form-mid">@prop.Name</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="@prop.Code" id="@prop.Code" value="@Model.GetModel(prop.Code)" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+                                    }
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe62c;</i> Chart</legend>
+        <div class="layui-field-box">
+            @{ var lechartoptionproporties = Model.Properties.Where(p => p.Type == "echartoption");}
+            @if (lechartoptionproporties != null && lechartoptionproporties.Count() > 0)
+            {
+                <div class="layui-form layui-form-pane" style="display:none" id="eChartOption">
+                    @foreach (var prop in lechartoptionproporties)
+                {
+                        <div class="layui-form-item" pane>
+                            <input type="hidden" id="@prop.Code" />
+                            <label class="layui-form-label">@prop.Name</label>
+                            <div class="layui-input-block">
+                                @{ var Node = Model.GetNode(prop.Code);
+                                    if (Node != null)
+                                    {
+                                        foreach (var option in Node)
+                                        {
+                                            <input type="checkbox" value="@option.Value" lay-filter='@prop.Code' lay-skin="primary" title="@option.Text" @(option.Selected ? "checked" : "")>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                                    }
+                </div>
+                <div style="text-align:center;" id="eChartOptionSwitcher">
+                    <a href="#eChartOption">
+                        <span class="layui-badge-dot layui-bg-orange"></span>
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        <span class="layui-badge-dot layui-bg-orange"></span>
+                    </a>
+                </div>
+                                    }
+            <div id="EChart" style="min-height:450px;left:0;right:0">
+
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe62d;</i>Table</legend>
+        <div class="layui-field-box">
+            <div id="Table">
+                <table class="layui-table" style="text-align:center">
+                    @{
+                        var TableData = Model.EChartData.TableItems ?? new List<EChart.Series_item>();
+                        <tr>
+                            <td colspan="2"></td>
+                            @foreach (var t in TableData.Select(p => p.Name).Distinct().OrderByDescending(p => p))
+                            {
+                                <td>@t</td>
+                            }
+                        </tr>
+                        foreach (var g in TableData.GroupBy(p => p.xAxis).OrderBy(p => p.Key))
+                        {
+                            var L = g.GroupBy(p => p.yAxisPre1).Take(4).ToList();
+
+
+                            bool rowspan = true;
+                            foreach (var l in L)
+                            {
+                                <tr>
+                                    @if (rowspan)
+                                    {
+                                        <td rowspan="@(L.Count>1?L.Count+1: 1)">@g.Key</td>
+                                        rowspan = false;
+                                    }
+                                    <td>@l.Key</td>
+
+                                    @foreach (var t in l.OrderByDescending(p => p.Name))
+                                    {
+                                        <td>@t.Count</td>
+                                    }
+                                </tr>
+
+                            }
+                            if (L.Count > 1)
+                            {
+                                <tr style="color:gray">
+                                    <td><strong>SUM</strong></td>
+                                    @foreach (var t in g.GroupBy(p => p.Name).OrderByDescending(p => p.Key))
+                                    {
+                                        <td><strong>@t.Sum(p => p.Count)</strong></td>
+                                    }
+                                </tr>
+                            }
+                        }
+                        <tr style="color:red">
+                            <td colspan="2"><strong>AMOUNT</strong></td>
+                            @foreach (var t in TableData.GroupBy(p => p.Name).OrderByDescending(p => p.Key))
+                            {
+                                <td><strong>@t.Sum(p => p.Count)</strong></td>
+                            }
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </fieldset>
+
+</body>
+
+</html>

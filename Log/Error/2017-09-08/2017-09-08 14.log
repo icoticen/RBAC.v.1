@@ -1,0 +1,40 @@
+Func:public static P Exec<P>(Func<E, P> F, Boolean IsLock = true)
+Msg:{"TypeE":"VEHICLEDETECTING.Models.EVI","TypeR":"VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer","F":"System.Func`2[VEHICLEDETECTING.Models.EVI,VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer]","IsLock":false}
+Exception:System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 VEHICLEDETECTING.Models.Report.FREPORT.PropertyValidate(String Value) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 276
+   在 VEHICLEDETECTING.Models.Report.FREPORT.<>c__DisplayClass27_0.<Report_Custome_Save>b__0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 318
+   在 IKUS.LIB.EFORM.API`1.Exec[R](Func`2 F, Boolean IsLock) 位置 C:\Users\YD.Platform\OneDrive\MyProj\LIB\IKUS.LIB\EFORM\API.cs:行号 87
+  >>>>>>  2017/9/8 14:29:37
+
+Func:public static P Exec<P>(Func<E, P> F, Boolean IsLock = true)
+Msg:{"TypeE":"VEHICLEDETECTING.Models.EVI","TypeR":"VEHICLEDETECTING.Models.Report.Table.VI_Report_Vehicle","F":"System.Func`2[VEHICLEDETECTING.Models.EVI,VEHICLEDETECTING.Models.Report.Table.VI_Report_Vehicle]","IsLock":false}
+Exception:System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 VEHICLEDETECTING.Models.Report.FREPORT.PropertyValidate(String Value) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 276
+   在 VEHICLEDETECTING.Models.Report.FREPORT.<>c__DisplayClass28_0.<Report_Vehicle_Save>b__0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 379
+   在 IKUS.LIB.EFORM.API`1.Exec[R](Func`2 F, Boolean IsLock) 位置 C:\Users\YD.Platform\OneDrive\MyProj\LIB\IKUS.LIB\EFORM\API.cs:行号 87
+  >>>>>>  2017/9/8 14:29:38
+
+Func:public static P Exec<P>(Func<E, P> F, Boolean IsLock = true)
+Msg:{"TypeE":"VEHICLEDETECTING.Models.EVI","TypeR":"VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer","F":"System.Func`2[VEHICLEDETECTING.Models.EVI,VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer]","IsLock":false}
+Exception:System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 VEHICLEDETECTING.Models.Report.FREPORT.PropertyValidate(String Value) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 276
+   在 VEHICLEDETECTING.Models.Report.FREPORT.<>c__DisplayClass27_0.<Report_Custome_Save>b__0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 318
+   在 IKUS.LIB.EFORM.API`1.Exec[R](Func`2 F, Boolean IsLock) 位置 C:\Users\YD.Platform\OneDrive\MyProj\LIB\IKUS.LIB\EFORM\API.cs:行号 87
+  >>>>>>  2017/9/8 14:29:39
+
+Func:public static P Exec<P>(Func<E, P> F, Boolean IsLock = true)
+Msg:{"TypeE":"VEHICLEDETECTING.Models.EVI","TypeR":"VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer","F":"System.Func`2[VEHICLEDETECTING.Models.EVI,VEHICLEDETECTING.Models.Report.Table.VI_Report_Customer]","IsLock":false}
+Exception:System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 VEHICLEDETECTING.Models.Report.FREPORT.PropertyValidate(String Value) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 276
+   在 VEHICLEDETECTING.Models.Report.FREPORT.<>c__DisplayClass27_0.<Report_Custome_Save>b__0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 318
+   在 IKUS.LIB.EFORM.API`1.Exec[R](Func`2 F, Boolean IsLock) 位置 C:\Users\YD.Platform\OneDrive\MyProj\LIB\IKUS.LIB\EFORM\API.cs:行号 87
+  >>>>>>  2017/9/8 14:30:57
+
+Func:public static P Exec<P>(Func<E, P> F, Boolean IsLock = true)
+Msg:{"TypeE":"VEHICLEDETECTING.Models.EVI","TypeR":"VEHICLEDETECTING.Models.Report.Table.VI_Report_Vehicle","F":"System.Func`2[VEHICLEDETECTING.Models.EVI,VEHICLEDETECTING.Models.Report.Table.VI_Report_Vehicle]","IsLock":false}
+Exception:System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 VEHICLEDETECTING.Models.Report.FREPORT.PropertyValidate(String Value) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 276
+   在 VEHICLEDETECTING.Models.Report.FREPORT.<>c__DisplayClass28_0.<Report_Vehicle_Save>b__0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Models\Report\FREPORT.cs:行号 379
+   在 IKUS.LIB.EFORM.API`1.Exec[R](Func`2 F, Boolean IsLock) 位置 C:\Users\YD.Platform\OneDrive\MyProj\LIB\IKUS.LIB\EFORM\API.cs:行号 87
+  >>>>>>  2017/9/8 14:30:57
+

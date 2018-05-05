@@ -1,0 +1,54 @@
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.InvalidOperationException: 类型“Table.Project.VI_Project_Form”的属性“ProjectID”中的 ForeignKeyAttribute 无效。在依赖类型“Table.Project.VI_Project_Form”中未找到导航属性“VI_Project”。Name 值应为有效的导航属性名称。
+   在 System.Data.Entity.ModelConfiguration.Conventions.ForeignKeyPrimitivePropertyAttributeConvention.Apply(PropertyInfo memberInfo, ConventionTypeConfiguration configuration, ForeignKeyAttribute attribute)
+   在 System.Data.Entity.ModelConfiguration.Conventions.PropertyAttributeConfigurationConvention`1.<.ctor>b__0(ConventionTypeConfiguration ec)
+   在 System.Data.Entity.ModelConfiguration.Conventions.TypeConvention.ApplyCore(Type memberInfo, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Conventions.TypeConventionBase.Apply(Type memberInfo, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Configuration.ConventionsConfiguration.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Conventions.Convention.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Configuration.ConventionsConfiguration.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Mappers.TypeMapper.MapEntityType(Type type)
+   在 System.Data.Entity.DbModelBuilder.MapTypes(EdmModel model)
+   在 System.Data.Entity.DbModelBuilder.Build(DbProviderManifest providerManifest, DbProviderInfo providerInfo)
+   在 System.Data.Entity.DbModelBuilder.Build(DbConnection providerConnection)
+   在 System.Data.Entity.Internal.LazyInternalContext.CreateModel(LazyInternalContext internalContext)
+   在 System.Data.Entity.Internal.RetryLazy`2.GetValue(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.ActOnSet(Action action, EntityState newState, Object entity, String methodName)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Add(Object entity)
+   在 System.Data.Entity.DbSet`1.Add(TEntity entity)
+   在 VEHICLEDETECTING.Controllers.HomeController.<>c.<Index>b__0_0(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Controllers\HomeController.cs:行号 16
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 636
+  >>>>>>  -17/07/24- 16:36:39
+
+Func:public static void Exec(Action<E> A)
+Msg:
+Exception:System.InvalidOperationException: 类型“Table.Project.VI_Project_Form”的属性“ProjectID”中的 ForeignKeyAttribute 无效。在依赖类型“Table.Project.VI_Project_Form”中未找到导航属性“VI_Project”。Name 值应为有效的导航属性名称。
+   在 System.Data.Entity.ModelConfiguration.Conventions.ForeignKeyPrimitivePropertyAttributeConvention.Apply(PropertyInfo memberInfo, ConventionTypeConfiguration configuration, ForeignKeyAttribute attribute)
+   在 System.Data.Entity.ModelConfiguration.Conventions.PropertyAttributeConfigurationConvention`1.<.ctor>b__0(ConventionTypeConfiguration ec)
+   在 System.Data.Entity.ModelConfiguration.Conventions.TypeConvention.ApplyCore(Type memberInfo, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Conventions.TypeConventionBase.Apply(Type memberInfo, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Configuration.ConventionsConfiguration.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Conventions.Convention.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Configuration.ConventionsConfiguration.ApplyModelConfiguration(Type type, ModelConfiguration modelConfiguration)
+   在 System.Data.Entity.ModelConfiguration.Mappers.TypeMapper.MapEntityType(Type type)
+   在 System.Data.Entity.DbModelBuilder.MapTypes(EdmModel model)
+   在 System.Data.Entity.DbModelBuilder.Build(DbProviderManifest providerManifest, DbProviderInfo providerInfo)
+   在 System.Data.Entity.DbModelBuilder.Build(DbConnection providerConnection)
+   在 System.Data.Entity.Internal.LazyInternalContext.CreateModel(LazyInternalContext internalContext)
+   在 System.Data.Entity.Internal.RetryLazy`2.GetValue(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.GetEnumerator()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Collections.Generic.IEnumerable<TResult>.GetEnumerator()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 VEHICLEDETECTING.Controllers.HomeController.<>c.<Index>b__0_1(EVI EF) 位置 K:\CODE\YD\OUT\VEHICLEDETECTING\VEHICLEDETECTING\Controllers\HomeController.cs:行号 22
+   在 K.Y.DLL.Entity._API`1.Exec[P](Func`2 F, Boolean IsLock) 位置 K:\CODE\svn.old\236.svn\K.Y.DLL\Entity\_API.cs:行号 608
+  >>>>>>  -17/07/24- 16:36:39
+

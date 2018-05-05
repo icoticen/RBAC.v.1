@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = ViewContext.RouteData.Values["action"].ToString();
+    String TableName = (String)ViewBag.TableName ?? ViewContext.RouteData.Values["action"].ToString().ToLower().Replace("_tree", "");
+
+}
+@*@model II_Group*@
+@model LayUI.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="~/Content/jQuery/jquery-2.1.4.min.js"></script>
+
+    <link href="~/Content/LayUI/v2.0.0/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/LayUI/v2.0.0/layui.js"></script>
+
+    <link href="~/Content/zTree/v3.5.29/css/metroStyle/metroStyle.css" rel="stylesheet" />
+    <script src="~/Content/zTree/v3.5.29/js/jquery.ztree.all.min.js"></script>
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.3.1/echarts.min.js"></script>*@
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+
+
+        var layer;
+        var selectedtreenode = { id: 0, pId: 0 };
+        layui.use(['form', 'layer', 'tree'], function () {
+            var form = layui.form;
+            layer = layui.layer;
+
+            //<!--
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "pId",
+                    }
+                },
+                view: {
+                    fontCss: function setFontCss(treeId, treeNode) {
+                        return treeNode.color ? {color:treeNode.color} : {};
+                    },
+                },
+                callback: {
+                    onClick: function (event, treeId, treeNode, clickFlag) {
+                        selectedtreenode = treeNode;
+                    },
+                    onDblClick: function (event, treeId, treeNode, clickFlag) {
+                        selectedtreenode = treeNode;
+                         @Html.Raw(Model.zTreeData?.onDoubleClick);
+                    }
+                }
+            };
+
+            $(document).ready(function () {
+                $.fn.zTree.init($("#TreeView"), setting,
+                    @Html.Raw(Model.zTreeData.TreeNodes.Ex_ToJson())
+                    );
+            });
+
+        });
+        function LayUI_Layer_OpeniFrame(Layer, Url, Title) {
+            var index= Layer.open({
+                type: 2,
+                title: Title,
+                scrollbar: false,
+                area: ['90%', '90%'],
+                maxmin: true,
+                resize :true,
+                shade: 0.5,
+                content: Url, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            })
+            //Layer.full(index);
+            return index;
+        }
+        function LayUI_Layer_CloseiFrame(R) {
+            layer.closeAll();
+            if (R.msg) {
+                layer.confirm(R.msg,
+                    { btn: ['确定', '取消'] },
+                    function () {
+                        if (R.result == 0) return;
+                        if (R.result == 1) window.location.reload();
+                        else {
+                            layer.alert(R.msg);
+                        }
+                    }, function () {
+                        return;
+                    });
+            }
+        }
+
+
+
+
+        function Tree_AddSibling() {
+            var url = "@(TableName)_Insert?ParentID=" + selectedtreenode.pId;
+            LayUI_Layer_OpeniFrame(layer, url,"新增同级节点");
+        }
+        function Tree_AddChild() {
+            var url = "@(TableName)_Insert?ParentID=" + selectedtreenode.id;
+            LayUI_Layer_OpeniFrame(layer, url,"新增子级节点");
+        }
+        function Tree_View() {
+            var url = "@(TableName)_View?ID=" + selectedtreenode.id;
+            LayUI_Layer_OpeniFrame(layer, url,"编辑节点");
+        }
+        function Tree_Update() {
+            var url = "@(TableName)_Update?ID=" + selectedtreenode.id;
+            LayUI_Layer_OpeniFrame(layer, url,"编辑节点");
+        }
+        function Tree_Delete() {
+            var url = "@(TableName)_Delete?ID=" + selectedtreenode.id;
+            LayUI_Layer_OpeniFrame(layer, url,"删除节点");
+        }
+    </script>
+</head>
+<body>
+    @if (Model.Buttons != null && Model.Buttons.Count > 0)
+    {
+        <fieldset class="layui-elem-field">
+            <legend><i class="layui-icon">&#xe615;</i>Action</legend>
+            <div class="layui-field-box">
+                @using (Html.BeginForm())
+                {
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="">
+                                    @{
+                                        var lbtn_model = Model.Buttons.Where(p => p.Site == "model");
+
+                                        foreach (var item in lbtn_model)
+                                        {
+                                            <button class="layui-btn" type="button" onclick="@item.ClickScript">
+                                                @item.Name
+                                            </button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        }
+            </div>
+        </fieldset>
+                                        }
+    <fieldset class="layui-elem-field">
+        <legend><i class="layui-icon">&#xe62d;</i>Tree</legend>
+        <div class="layui-field-box">
+            <ul id="TreeView" class="ztree"></ul>
+            <ul id="TreeView2" class="ztree"></ul>
+        </div>
+    </fieldset>
+</body>
+</html>
